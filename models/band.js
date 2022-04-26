@@ -1,24 +1,24 @@
-'use strict';
-const { Model } = require('sequelize');
+'use strict'
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Band extends Model {
-
-      // define association here
-      static associate({ Meet_greets, Set_times }) {
-        // meet and greets
-        Band.hasMany(Meet_greets, {
-          foreignKey: "band_id",
-          as: "meet_greets"
-        })
   
-        // set times 
-        Band.hasMany(Set_times, {
-          foreignKey: "band_id",
-          as: "set_times"
-        })
-      }
-  }
+    static associate({ MeetGreet, SetTime }) {
+      // meet and greets
+      Band.hasMany(MeetGreet, {
+        foreignKey: "band_id",
+        as: "meet_greets"
+      })
 
+      // set times 
+      Band.hasMany(SetTime, {
+        foreignKey: "band_id",
+        set_times: "set_times"
+      })
+    }
+  }
   Band.init({
     band_id: {
       type: DataTypes.INTEGER,
@@ -44,9 +44,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Band',
-    tableName: 'Bands',
+    tableName: 'bands',
     timestamps: false
-  });
-
-  return Band;
-};
+  })
+  return Band
+}

@@ -1,13 +1,13 @@
 // DEPENDENCIES
 const stages = require('express').Router()
 const db = require('../models')
-const { Stages } = db 
+const { Stage } = db 
 const { Op } = require('sequelize')
 
 // FIND ALL STAGES
 stages.get('/', async (req, res) => {
     try {
-        const foundStages = await Stages.findAll({
+        const foundStages = await Stage.findAll({
             where: {
                 stage_name: { [Op.like]: `%${req.query.stage_name ? req.query.stage_name : ''}%` }
             }
@@ -21,7 +21,7 @@ stages.get('/', async (req, res) => {
 // FIND A SPECIFIC STAGE
 stages.get('/:id', async (req, res) => {
     try {
-        const foundStage = await Stages.findOne({
+        const foundStage = await Stage.findOne({
             where: { stage_id: req.params.id }
         })
         res.status(200).json(foundStage)
@@ -33,7 +33,7 @@ stages.get('/:id', async (req, res) => {
 // CREATE A STAGE
 stages.post('/', async (req, res) => {
     try {
-        const newStage = await Stages.create(req.body)
+        const newStage = await Stage.create(req.body)
         res.status(200).json({
             message: 'Successfully inserted a new stage',
             data: newStage
@@ -46,7 +46,7 @@ stages.post('/', async (req, res) => {
 // UPDATE A STAGE
 stages.put('/:id', async (req, res) => {
     try {
-        const updatedStages = await Stages.update(req.body, {
+        const updatedStages = await Stage.update(req.body, {
             where: {
                 stage_id: req.params.id
             }
@@ -62,7 +62,7 @@ stages.put('/:id', async (req, res) => {
 // DELETE A STAGE
 stages.delete('/:id', async (req, res) => {
     try {
-        const deletedStages = await Stages.destroy({
+        const deletedStages = await Stage.destroy({
             where: {
                 stage_id: req.params.id
             }

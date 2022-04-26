@@ -1,13 +1,13 @@
 // DEPENDENCIES
 const events = require('express').Router()
 const db = require('../models')
-const { Events } = db 
+const { Event } = db 
 const { Op } = require('sequelize')
 
 // FIND ALL EVENTS
 events.get('/', async (req, res) => {
     try {
-        const foundEvents = await Events.findAll({
+        const foundEvents = await Event.findAll({
             order: [ [ 'date', 'ASC' ] ],
             where: {
                 name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
@@ -22,7 +22,7 @@ events.get('/', async (req, res) => {
 // FIND A SPECIFIC EVENT
 events.get('/:id', async (req, res) => {
     try {
-        const foundEvent = await Events.findOne({
+        const foundEvent = await Event.findOne({
             where: { event_id: req.params.id }
         })
         res.status(200).json(foundEvent)
@@ -34,7 +34,7 @@ events.get('/:id', async (req, res) => {
 // CREATE AN EVENT
 events.post('/', async (req, res) => {
     try {
-        const newEvent = await Events.create(req.body)
+        const newEvent = await Event.create(req.body)
         res.status(200).json({
             message: 'Successfully inserted a new event',
             data: newEvent
@@ -47,7 +47,7 @@ events.post('/', async (req, res) => {
 // UPDATE AN EVENT
 events.put('/:id', async (req, res) => {
     try {
-        const updatedEvents = await Events.update(req.body, {
+        const updatedEvents = await Event.update(req.body, {
             where: {
                 event_id: req.params.id
             }
@@ -63,7 +63,7 @@ events.put('/:id', async (req, res) => {
 // DELETE AN EVENT
 events.delete('/:id', async (req, res) => {
     try {
-        const deletedEvents = await Events.destroy({
+        const deletedEvents = await Event.destroy({
             where: {
                 event_id: req.params.id
             }

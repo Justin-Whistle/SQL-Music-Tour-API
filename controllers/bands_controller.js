@@ -1,13 +1,13 @@
 // DEPENDENCIES
 const bands = require('express').Router()
 const db = require('../models')
-const { Bands } = db 
+const { Band } = db 
 const { Op } = require('sequelize')
-   
+
 // FIND ALL BANDS
 bands.get('/', async (req, res) => {
     try {
-        const foundBands = await Bands.findAll({
+        const foundBands = await Band.findAll({
             order: [ [ 'available_start_time', 'ASC' ] ],
             where: {
                 name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
@@ -22,7 +22,7 @@ bands.get('/', async (req, res) => {
 // FIND A SPECIFIC BAND
 bands.get('/:id', async (req, res) => {
     try {
-        const foundBand = await Bands.findOne({
+        const foundBand = await Band.findOne({
             where: { band_id: req.params.id }
         })
         res.status(200).json(foundBand)
@@ -34,7 +34,7 @@ bands.get('/:id', async (req, res) => {
 // CREATE A BAND
 bands.post('/', async (req, res) => {
     try {
-        const newBand = await Bands.create(req.body)
+        const newBand = await Band.create(req.body)
         res.status(200).json({
             message: 'Successfully inserted a new band',
             data: newBand
@@ -47,7 +47,7 @@ bands.post('/', async (req, res) => {
 // UPDATE A BAND
 bands.put('/:id', async (req, res) => {
     try {
-        const updatedBands = await Bands.update(req.body, {
+        const updatedBands = await Band.update(req.body, {
             where: {
                 band_id: req.params.id
             }
@@ -63,7 +63,7 @@ bands.put('/:id', async (req, res) => {
 // DELETE A BAND
 bands.delete('/:id', async (req, res) => {
     try {
-        const deletedBands = await Bands.destroy({
+        const deletedBands = await Band.destroy({
             where: {
                 band_id: req.params.id
             }
